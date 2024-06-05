@@ -71,5 +71,10 @@ public class UserRestController {
         userService.deleteUserByName(name);
     }
 
+    @PatchMapping("/update/{name}")
+    public UserResponse updateByName(@PathVariable String name,@RequestBody UserRequest userRequet) {
+        return userService.updateUserByName(name, userRequet);
+    }
+
 
 }

@@ -18,4 +18,7 @@ public interface UserService {
 
     void deleteUserByName(String name);
 
+    UserResponse updateUserByName(String name, UserRequest userRequest);
+
+
 }

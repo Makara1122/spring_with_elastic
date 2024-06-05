@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserResponse getUserByName(String name) {
 
-        var user = userRepository.findByName(name);
+        var user = userRepository.findUserByName(name);
 
         return userMapper.
 
@@ -47,8 +47,24 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUserByName(String name) {
 
-            var user = userRepository.findByName(name);
+            var user = userRepository.findUserByName(name);
 
             userRepository.delete(user.orElseThrow(() -> new RuntimeException("User not found")));
     }
+
+    @Override
+    public UserResponse updateUserByName(String name, UserRequest userRequest) {
+
+        var user = userRepository.findUserByName(name).orElseThrow(() -> new RuntimeException("User not found"));
+
+        var user1 = userMapper.toUser(userRequest);
+
+        user1.setId(user.getId());
+
+        System.out.println("=========== User + " + user.toString() + " + ===========");
+
+        return userMapper.toUserResponse(userRepository.save(user1));
+    }
+
+
 }
