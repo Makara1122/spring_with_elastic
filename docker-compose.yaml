@@ -16,6 +16,7 @@ services:
       - ELASTICSEARCH_HOSTS=http://136.228.158.126:3125
       - ELASTICSEARCH_USERNAME=elastic
       - TZ=Asia/Bangkok
+
     ports:
       - '3128:8888'   #follow you port
     volumes:
