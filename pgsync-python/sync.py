@@ -229,6 +229,21 @@ def fetch_elasticsearch_ids():
     hits = response.json().get('hits', {}).get('hits', [])
     return {hit['_id'] for hit in hits}
 
+# def format_data(rows):
+#     """Formats rows into a bulk JSON action list for Elasticsearch."""
+#     actions = []
+#     for row in rows:
+#         action = {
+#             "index": {
+#                 "_index": "user",
+#                 "_id": row['id']
+#             }
+#         }
+#         doc = {key: row[key] for key in row.keys() if key != 'id'}
+#         actions.append(json.dumps(action))
+#         actions.append(json.dumps(doc))
+#     return "\n".join(actions) + "\n"
+
 def format_data(rows):
     """Formats rows into a bulk JSON action list for Elasticsearch."""
     actions = []
@@ -239,7 +254,7 @@ def format_data(rows):
                 "_id": row['id']
             }
         }
-        doc = {key: row[key] for key in row.keys() if key != 'id'}
+        doc = {key: row[key] for key in row.keys()}  # Include 'id' in the doc
         actions.append(json.dumps(action))
         actions.append(json.dumps(doc))
     return "\n".join(actions) + "\n"

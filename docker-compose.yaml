@@ -25,13 +25,13 @@ services:
 
 #    networks:
 #      - elastic8
-#  pgsync-python:
-#    build: ../../Test-in-local-elastic/spring_elastic_search_user/pgsync-python
-#    container_name: pgsync-python
-##    depends_on:
-##      - elasticsearch
-#    volumes:
-#      - ./pgsync-python:/app
+  pgsync-python:
+    build: ../../Test-in-local-elastic/spring_elastic_search_user/pgsync-python
+    container_name: pgsync-python
+#    depends_on:
+#      - elasticsearch
+    volumes:
+      - ./pgsync-python:/app
 ###    networks:
 ###      - elastic8
 

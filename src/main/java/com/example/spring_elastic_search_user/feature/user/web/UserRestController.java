@@ -76,5 +76,61 @@ public class UserRestController {
         return userService.updateUserByName(name, userRequet);
     }
 
+    @GetMapping("/allElasic")
+    public List<User> getAllUserElastic() throws IOException {
+
+        SearchResponse<User> searchResponse = elService._matchAllService();
+
+        List<Hit<User>> listHit = searchResponse.hits().hits();
+
+        List<User> listUsers = new ArrayList<>();
+
+        for (Hit<User> users : listHit) {
+
+            listUsers.add(users.source());
+
+        }
+
+
+        return listUsers;
+    }
+
+    @GetMapping("/{wildcard}/{value}")
+    public List<User> getUsersByWildcard (@PathVariable String wildcard,@PathVariable String value) throws IOException {
+
+        String wildcard2 =  value + "*";
+
+        SearchResponse<User> searchResponse = elService._wildcardService(wildcard,wildcard2);
+
+        List<Hit<User>> listHit = searchResponse.hits().hits();
+
+        List<User> users = new ArrayList<>();
+
+        for (Hit<User> user1 : listHit) {
+
+            users.add(user1.source());
+
+        }
+
+        return users;
+    }
+
+    @GetMapping("/query/{query}")
+    public List<UserResponse> getUsersByQuery(@PathVariable String query) throws IOException {
+        SearchResponse<User> searchResponse = elService._queryAll(query);
+        List<Hit<User>> hitList = searchResponse.hits().hits();
+        List<UserResponse> userResponses = new ArrayList<>();
+        for (Hit<User> hit : hitList) {
+            userResponses.add(
+                    UserResponse.builder()
+                            .name(hit.source().getName())
+                            .email(hit.source().getEmail())
+                            .id(hit.id())
+                            .address(hit.source().getAddress())
+                            .build()
+            );
+        }
+        return userResponses;
+    }
 
 }
